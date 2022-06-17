@@ -117,7 +117,7 @@ def train(model, optimizer, train_dataloader, model_root, epochs=20):
     print("\n")
     print(f"Training complete! Best train accuracy: {best_accuracy:.2f}%.")
 
-train(cnn_model, optimizer, train_dataloader, 'Outcome1/result/lab2.pt', epochs=epoch)
+train(cnn_model, optimizer, train_dataloader, 'Outcome1/result/result.pt', epochs=epoch)
 
 # %%
 def test(model, test_dataloader):
@@ -136,7 +136,7 @@ def test(model, test_dataloader):
     test_labels = torch.cat(test_labels)
     return test_labels
 
-cnn_model.load_state_dict(torch.load('Outcome1/result/lab2.pt',  map_location=device))
+cnn_model.load_state_dict(torch.load('Outcome1/result/result.pt',  map_location=device))
 test_labels = test(cnn_model, test_dataloader)
 test_id = ['S'+'{0:05d}'.format(i+1) for i in range(len(test_labels))]
 
@@ -145,4 +145,4 @@ result_df = pd.DataFrame(
      'pred': test_labels
     })
 
-result_df.to_csv("Outcome1/result/lab2.csv", index=False)
+result_df.to_csv("Outcome1/result/result.csv", index=False)
