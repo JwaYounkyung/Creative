@@ -1,4 +1,3 @@
-from sklearn.preprocessing import label_binarize
 from transformers import pipeline
 import pandas as pd
 
@@ -11,6 +10,7 @@ label2idx = {'Confused':0, 'Not confused':1}
 classifier = pipeline("zero-shot-classification",
                       model="facebook/bart-large-mnli") # device = 0(for GPU)
 
+inputs = []
 labels = []
 for i in range(len(sentences)):
   input_text = sentences[i]
@@ -26,12 +26,13 @@ for i in range(len(sentences)):
   print("Input : ", input_text)
   print("Selected label : ", label)
 
+  inputs.append(input_text)
   labels.append(label2idx[label])
 
 # save the labled data
 result_df = pd.DataFrame(
-    {'id': sentences,
-     'pred': labels
+    {'sentence': inputs,
+     'label': labels
     })
 
 result_df.to_csv("Outcome3/result/labeled_morphology.csv", index=False)
